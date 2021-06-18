@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Pokemon.Models.Pokemones>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Магазин пакемонов</title>
+</head>
+<body>
+    <h3>Пакемоны</h3>
+    <table>
+        <tr>
+            <td>Имя</td>
+            <td></td>
+        </tr>
+        @foreach (var Pokemons in Model)
+        {
+            <tr>
+                <td>@Pokemons.Name</td>
+                <td><a href="~/Home/Order/@Pokemons.PokemonId">Купить</a></td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
