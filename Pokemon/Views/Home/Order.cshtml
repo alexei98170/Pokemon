@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Pokemon.Models.Order
+
+@{
     Layout = null;
 }
 
@@ -14,18 +16,23 @@
         <form method="post">
             <input type="hidden" value="@ViewBag.PhoneId" name="PokemonId" />
             <table>
-                <tr>
-                    <td>Имя:</td>
-                    <td><input type="text" name="Name" /> </td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="text" name="Email" /></td>
-                </tr>
-                <tr>
-                    <td>Телефон:</td>
-                    <td><input type="text" name="Phone" /></td>
-                </tr>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber">Mobile phone</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Skype</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Name">Information</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
                 <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
             </table>
         </form>

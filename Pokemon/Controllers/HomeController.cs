@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Pokemon.Data;
 using Pokemon.Models;
+using SocialApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,12 +30,20 @@ namespace Pokemon.Controllers
             return View();
         }
         [HttpPost]
-        public string Order(Order order)
+        public async Task<IActionResult> Order(Order order)
         {
-            db.Orders.Add(order);
+            Order orderVew = order;
+            orderVew.OrderDate = DateTime.Now;
+            db.Orders.Add(orderVew);
           
             db.SaveChanges();
-            return "Спасибо, " + order.Name + ", за покупку!";
+            return View("List");
+        }
+            public async Task<IActionResult> SendMessage()
+            {
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailAsync("somemail@mail.ru", "Заказ покемона", "Вы заказали покемона. Ожидайте звонка курьера. Хорошего дня! :)");
+                return RedirectToAction("Index");
+            }
         }
     }
-}

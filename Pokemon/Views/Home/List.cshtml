@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Pokemon.Models.Order>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+</head>
+<body>
+    <p>@Html.DisplayNameFor(model => model.OrderDate) @Html.DisplayNameFor(model => model.Name) заказал покемона уже 5 раз</p>
+    @foreach (var item in Model)
+    {
+        @Html.DisplayNameFor(modelItem => item.OrderDate);
+        @Html.DisplayNameFor(modelItem => item.Name)}
+</body>
+</html>
