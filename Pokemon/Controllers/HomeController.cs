@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using Pokemon.Data;
 using Pokemon.Models;
+using Pokemon.ViewModels;
 using SocialApp.Services;
 using System;
 using System.Collections.Generic;
@@ -13,15 +15,17 @@ namespace Pokemon.Controllers
 {
     public class HomeController : Controller
     {
-        ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
         public HomeController(ApplicationDbContext context)
         {
             db = context;
         }
+
         public IActionResult Index()
         {
             return View(db.Pokemons.ToList());
         }
+
         [HttpGet]
         public IActionResult Order(int? id)
         {
@@ -29,21 +33,27 @@ namespace Pokemon.Controllers
             ViewBag.PokemonId = id;
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Order(Order order)
+        [ActionName("Order")]
+        public ActionResult Order(Order order)
         {
-            Order orderVew = order;
-            orderVew.OrderDate = DateTime.Now;
-            db.Orders.Add(orderVew);
-          
+            order.OrderDate = DateTime.Now;
+
+            db.Orders.Add(order);
             db.SaveChanges();
-            return View("List");
+            var count = db.Orders.Where(x => x.Email == order.Email).Count();
+            var viewModel = new OrderViewModel(order, count);
+
+            return View("List", viewModel);
         }
-            public async Task<IActionResult> SendMessage()
-            {
-                EmailService emailService = new EmailService();
-                await emailService.SendEmailAsync("somemail@mail.ru", "Заказ покемона", "Вы заказали покемона. Ожидайте звонка курьера. Хорошего дня! :)");
-                return RedirectToAction("Index");
-            }
+
+        public async Task<IActionResult> SendMessage()
+        {
+            EmailService emailService = new EmailService();
+            await emailService.SendEmailAsync("somemail@mail.ru", "Заказ покемона", "Вы заказали покемона. Ожидайте звонка курьера. Хорошего дня! :)");
+
+            return RedirectToAction("Index");
         }
     }
+}

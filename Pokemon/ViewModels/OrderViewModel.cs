@@ -9,7 +9,14 @@ namespace Pokemon.ViewModels
     public class OrderViewModel
     {
         public Order Order { get; set; }
-        public Order Name { get; set; }
-        public Order OrderDate { get; set; }
+
+        public int Count { get; set; }
+
+        public OrderViewModel(Order order, int count)
+        {
+            this.Order = order;
+            this.Count = count;
+        }
+       
     }
 }
