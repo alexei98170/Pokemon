@@ -23,20 +23,18 @@ namespace Pokemon.Controllers
 
         public IActionResult Index()
         {
-            return View(db.Pokemons.ToList());
+            return RedirectToAction("Order");
         }
 
         [HttpGet]
         public IActionResult Order(int? id)
         {
-            if (id == null) return RedirectToAction("Index");
-            ViewBag.PokemonId = id;
             return View();
         }
 
         [HttpPost]
         [ActionName("Order")]
-        public ActionResult Order(Order order)
+        public async Task<IActionResult> Order(Order order)
         {
             order.OrderDate = DateTime.Now;
 
@@ -44,16 +42,11 @@ namespace Pokemon.Controllers
             db.SaveChanges();
             var count = db.Orders.Where(x => x.Email == order.Email).Count();
             var viewModel = new OrderViewModel(order, count);
-
+            var emailService = new EmailService();
+            await emailService.SendEmailAsync(order.Email,"Заказ покемона", "Вы успешно заказали пакемона");
             return View("List", viewModel);
         }
 
-        public async Task<IActionResult> SendMessage()
-        {
-            EmailService emailService = new EmailService();
-            await emailService.SendEmailAsync("somemail@mail.ru", "Заказ покемона", "Вы заказали покемона. Ожидайте звонка курьера. Хорошего дня! :)");
-
-            return RedirectToAction("Index");
-        }
+     
     }
 }

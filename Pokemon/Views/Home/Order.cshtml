@@ -1,8 +1,5 @@
 ﻿@model Pokemon.Models.Order
 
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 <html>
@@ -23,13 +20,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Email">Skype</label>
+                    <label asp-for="Email">Email</label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Name">Information</label>
+                    <label asp-for="Name">Name</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
