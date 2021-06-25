@@ -1,5 +1,4 @@
-﻿@model Pokemon.ViewModels.OrderViewModel
-
+﻿@model IEnumerable<Pokemon.ViewModels.OrderViewModel>
 
 <!DOCTYPE html>
 
@@ -9,6 +8,9 @@
     <title>List</title>
 </head>
 <body>
-    <p>@Model.Order.OrderDate @Model.Order.Name заказал покемона уже @Model.Count раз</p>
+    @foreach (var Order in Model)
+    {
+        <p>  @Order.Order.OrderDate @Order.Order.Name заказал покемона уже @Order.Count раз</p>
+    }
 </body>
 </html>

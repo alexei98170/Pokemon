@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Pokemon.Models;
 
 namespace Pokemon.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
            : base(options)
@@ -11,6 +12,7 @@ namespace Pokemon.Data
             Database.EnsureCreated();
         }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Pokemones> Pokemons { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }
